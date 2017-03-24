@@ -16,6 +16,7 @@ public class PulseLedTask extends TimerTask {
     public PulseLedTask(VirtualLaunchpad device){
         this.device = device;
         toPulse = new HashMap<>();
+
     }
 
     @Override
