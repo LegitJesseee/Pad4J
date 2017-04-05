@@ -1,9 +1,13 @@
 package me.jessepayne.pad4j.visualizer;
 
 import me.jessepayne.pad4j.core.enums.NoteColor;
-import me.jessepayne.pad4j.core.object.SimpleLaunchpad;
+import me.jessepayne.pad4j.core.event.LaunchpadListener;
+import me.jessepayne.pad4j.core.object.*;
+import me.jessepayne.pad4j.core.object.Button;
+import me.jessepayne.pad4j.visualizer.swing.LaunchpadLAF;
 import me.jessepayne.pad4j.visualizer.swing.VirtualUIManager;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Timer;
 
@@ -19,7 +23,12 @@ public class VirtualLaunchpad extends SimpleLaunchpad {
 
             launchPad.getPulseLedTask().add(SimpleLaunchpad.getButton(SimpleLaunchpad.getCoords(5,5)), NoteColor.GREEN);
 
-
+            launchPad.registerListener(new LaunchpadListener() {
+                @Override
+                public void onButtonPushed(Button button, long timestamp) {
+                    System.out.println("MEMES");
+                }
+            });
 
         });
 
@@ -30,13 +39,22 @@ public class VirtualLaunchpad extends SimpleLaunchpad {
 
     @Override
     public void setup(Runnable runnable) {
+
+
+        try {
+            UIManager.setLookAndFeel(new LaunchpadLAF());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+
         pulseLedTask = new PulseLedTask(this);
-        virtualUIManager = new VirtualUIManager();
+        virtualUIManager = new VirtualUIManager(this);
 
         Timer pulseTimer = new Timer();
         pulseTimer.scheduleAtFixedRate(pulseLedTask, 0, 500);
 
-        virtualUIManager.setup();
+        virtualUIManager.setup(new JFrame(), false);
 
         if(runnable != null) {
             runnable.run();
@@ -51,7 +69,8 @@ public class VirtualLaunchpad extends SimpleLaunchpad {
 
     @Override
     public void clearScreen() {
-
+        virtualUIManager.getRenderMap().clear();
+        virtualUIManager.update();
     }
 
     @Override

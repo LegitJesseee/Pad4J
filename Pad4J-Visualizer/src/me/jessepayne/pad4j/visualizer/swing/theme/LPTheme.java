@@ -42,7 +42,8 @@ public class LPTheme {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.accentColor = accentColor;
-        this.padOff = new Color(44, 62, 80);
+       // this.padOff = new Color(44, 62, 80);
+        this.padOff = new Color(40,40,40);
         this.textColor = padOff;
 
     }

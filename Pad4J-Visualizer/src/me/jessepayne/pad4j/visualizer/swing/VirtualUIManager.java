@@ -18,48 +18,60 @@ public class VirtualUIManager {
     private JFrame frame;
     private VirtualUIPanelScaleable panel;
 
+    private SimpleLaunchpad launchpad;
+
     private ThemeManager themeManager;
 
-    public void setup(){
-        frame = new JFrame();
+    public VirtualUIManager(SimpleLaunchpad launchpad){
+        this.launchpad = launchpad;
+    }
+
+    public void setup(JFrame frame, boolean nested){
+
+
 
         //frame.setSize(775,805);
-        frame.setSize(600,600);
-        frame.setTitle("Virtual Launchpad Pro");
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-        JMenuBar jMenuBar = new JMenuBar();
-        JMenu themeMenu = new JMenu("Theme");
 
-        themeManager = new ThemeManager(this);
+        if(!nested) {
 
-        ButtonGroup buttonGroup = new ButtonGroup();
+            frame.setSize(600, 600);
+            frame.setTitle("Virtual SimpleLaunchpad Pro");
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            JMenuBar jMenuBar = new JMenuBar();
+            JMenu themeMenu = new JMenu("Theme");
 
-        for(LPTheme theme : LPTheme.getStandardThemes()){
+            themeManager = new ThemeManager(this);
 
-            if(theme == null){
-                continue;
+            ButtonGroup buttonGroup = new ButtonGroup();
+
+            for (LPTheme theme : LPTheme.getStandardThemes()) {
+
+                if (theme == null) {
+                    continue;
+                }
+
+                JRadioButtonMenuItem item = new JRadioButtonMenuItem(theme.getName());
+                item.addActionListener(new ThemeMenuAction(themeManager, theme));
+                themeMenu.add(item);
+                buttonGroup.add(item);
             }
 
-            JRadioButtonMenuItem item = new JRadioButtonMenuItem(theme.getName());
-            item.addActionListener(new ThemeMenuAction(themeManager, theme));
-            themeMenu.add(item);
-            buttonGroup.add(item);
+            jMenuBar.add(themeMenu);
+            frame.setJMenuBar(jMenuBar);
         }
-
-        System.out.println(buttonGroup.getSelection());
-
-        jMenuBar.add(themeMenu);
-        frame.setJMenuBar(jMenuBar);
-
-        System.out.println(frame.getBaselineResizeBehavior());
 
         panel = new VirtualUIPanelScaleable(this);
         //frame.addComponentListener(new ResizeListener(frame));
-        frame.add(panel);
-        frame.setMinimumSize(new Dimension(125,150));
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        frame.add(panel);
+
+        if(!nested) {
+
+            frame.setMinimumSize(new Dimension(125, 150));
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+        }
 
     }
 
@@ -86,6 +98,10 @@ public class VirtualUIManager {
 
     public ThemeManager getThemeManager(){
         return themeManager;
+    }
+
+    public SimpleLaunchpad getLaunchpad(){
+        return launchpad;
     }
 
 }

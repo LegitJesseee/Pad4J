@@ -40,9 +40,6 @@ public class ThemeChangeTask extends TimerTask {
         }
     }
 
-    public ThemeChangeTask(ThemeManager themeManager, LPTheme startTheme, LPTheme endTheme){
-        this(themeManager, 10, startTheme, endTheme);
-    }
 
     @Override
     public void run() {
@@ -79,37 +76,17 @@ public class ThemeChangeTask extends TimerTask {
 
         colors.add(oldColor);
 
-        int rDelta = ( oldColor.getRed() - newColor.getRed() ) / stepCount;
-        int gDelta = ( oldColor.getGreen() - newColor.getGreen() ) / stepCount;
-        int bDelta = ( oldColor.getBlue() - newColor.getBlue() ) / stepCount;
-
-        for (int i = 1; i < stepCount; i++)
-        {
-            int rValue = oldColor.getRed() - (i * rDelta);
-            int gValue = oldColor.getGreen() - (i * gDelta);
-            int bValue = oldColor.getBlue() - (i * bDelta);
-
-            colors.add( new Color(rValue, gValue, bValue) );
-        }
-
-
-        double ratio = 0;
-
-        //Out = C0 + (C1-C0) * t
+        // cF = c0 + (c1-c0) * ratio;
 
         for(int i = 0; i <= stepCount; i++){
 
-            ratio = (1.0/stepCount)*i;
+            double ratio = (1.0/stepCount)*i;
 
-           /* int r = ((int)(oldColor.getRed() + (newColor.getRed() - oldColor.getRed()) * ratio));
-            int g = ((int)(oldColor.getGreen() + (newColor.getGreen() - oldColor.getGreen()) * ratio));
-            int b = ((int)(oldColor.getBlue() + (newColor.getBlue() - oldColor.getBlue()) * ratio));
-            */
             int r = (int)Math.abs((ratio * newColor.getRed()) + ((1 - ratio) * oldColor.getRed()));
             int g = (int)Math.abs((ratio * newColor.getGreen()) + ((1 - ratio) * oldColor.getGreen()));
             int b = (int)Math.abs((ratio * newColor.getBlue()) + ((1 - ratio) * oldColor.getBlue()));
 
-            System.out.println("(" + r + ", " + g + ", " + b + ") (" + Math.round(ratio * 100) + "% complete.)");
+            //System.out.println("(" + r + ", " + g + ", " + b + ") (" + Math.round(ratio * 100) + "% complete.)");
             colors.add(new Color(r,g,b));
         }
 

@@ -2,16 +2,27 @@ package me.jessepayne.pad4j.visualizer.swing.comp;
 
 import me.jessepayne.pad4j.core.object.SimpleLaunchpad;
 import me.jessepayne.pad4j.visualizer.swing.VirtualUIManager;
+import me.jessepayne.pad4j.visualizer.swing.clickable.LaunchpadButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class VirtualUIPanelScaleable extends JComponent{
+public class VirtualUIPanelScaleable extends JPanel{
 
     private VirtualUIManager uiManager;
 
+    private boolean initButtons = true;
+
+    private ArrayList<LaunchpadButton> buttons;
+
     public VirtualUIPanelScaleable(VirtualUIManager uiManager){
         this.uiManager = uiManager;
+        this.setLayout(null);
+
+        buttons = new ArrayList<>();
+
+
     }
 
     @Override
@@ -63,12 +74,31 @@ public class VirtualUIPanelScaleable extends JComponent{
                 circle = true;
             }
 
+            if(initButtons){
+                if(!shouldIgnoreRender(buttonX,buttonY)) {
+                    LaunchpadButton button = new LaunchpadButton(uiManager, buttonX, buttonY, cursorX, this.getHeight() - cursorY, totalButtonSize);
+                    buttons.add(button);
+                    this.add(button);
+                }
+            }else{
+                final int fX = cursorX;
+                final int fY = cursorY;
+                final int fBx = buttonX;
+                final int fBy = buttonY;
+                final int fBs = totalButtonSize;
+
+                buttons.stream().filter(b-> fBx == b.getButtonX() && fBy == b.getButtonY()).findFirst().ifPresent(bb -> bb.setBounds(fX, fY - fBs/2 - ((int)(fBs*0.1)), fBs, fBs));
+            }
+
             renderButton(g2d, buttonX, buttonY, cursorX,this.getHeight() - cursorY, circle, fillColor, totalButtonSize);
 
             cursorY += spaceBetweenButton + totalButtonSize;
             buttonY++;
 
         }
+
+
+        initButtons = false;
 
 
     }
@@ -79,7 +109,7 @@ public class VirtualUIPanelScaleable extends JComponent{
         graphics2D.setColor(color);
 
         //button cutoff
-        if((buttonX == 0 && buttonY == 0) || (buttonX == 0 && buttonY == 9) || (buttonX == 9 && buttonY == 0) || (buttonX == 9 && buttonY == 9)) {
+        if(shouldIgnoreRender(buttonX,buttonY)){
             return;
         }
 
@@ -111,6 +141,10 @@ public class VirtualUIPanelScaleable extends JComponent{
             graphics2D.drawOval(cursorX, cursorY, size, size);
         }
 
+    }
+
+    private boolean shouldIgnoreRender(int buttonX, int buttonY){
+        return (buttonX == 0 && buttonY == 0) || (buttonX == 0 && buttonY == 9) || (buttonX == 9 && buttonY == 0) || (buttonX == 9 && buttonY == 9);
     }
 
 }

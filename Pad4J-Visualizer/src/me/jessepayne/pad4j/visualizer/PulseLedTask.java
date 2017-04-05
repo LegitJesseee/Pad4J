@@ -1,7 +1,7 @@
 package me.jessepayne.pad4j.visualizer;
 
-import me.jessepayne.pad4j.core.object.Button;
 import me.jessepayne.pad4j.core.enums.NoteColor;
+import me.jessepayne.pad4j.core.object.Button;
 
 import java.util.HashMap;
 import java.util.TimerTask;
@@ -16,6 +16,7 @@ public class PulseLedTask extends TimerTask {
     public PulseLedTask(VirtualLaunchpad device){
         this.device = device;
         toPulse = new HashMap<>();
+        
 
     }
 

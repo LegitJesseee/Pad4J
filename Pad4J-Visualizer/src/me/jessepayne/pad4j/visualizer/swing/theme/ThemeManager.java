@@ -35,7 +35,7 @@ public class ThemeManager {
                 return false;
             }
 
-            ThemeChangeTask task = new ThemeChangeTask(this, 30, theme, newTheme);
+            ThemeChangeTask task = new ThemeChangeTask(this, 55, theme, newTheme);
             fadeTimer.scheduleAtFixedRate(task, 0L, 50L);
             return true;
         }

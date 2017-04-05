@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Pad4J:jar">
+    <output-path>$USER_HOME$/Desktop</output-path>
+    <root id="archive" name="Pad4J.jar">
+      <element id="module-output" name="Pad4J-Core" />
+      <element id="module-output" name="Pad4J-Visualizer" />
+    </root>
+  </artifact>
+</component>

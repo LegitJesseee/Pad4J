@@ -3,12 +3,14 @@ package me.jessepayne.pad4j.core.object;
 import me.jessepayne.pad4j.core.event.LaunchpadListener;
 import me.jessepayne.pad4j.core.interfaces.ILaunchPad;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Random;
 
 public abstract class SimpleLaunchpad implements ILaunchPad {
 
     private HashMap<Integer,LaunchpadListener> launchpadListeners = new HashMap<>();
+    private HashMap<Button, Color> colorMap = new HashMap<>();
 
     public int registerListener(LaunchpadListener launchpadListener){
         int rand;
