@@ -12,56 +12,6 @@ import java.util.*;
 
 public class LaunchPadPro extends SimpleLaunchpad implements IMidiDevice {
 
-    //Example
-
-    public static void main(String... args) {
-
-        LaunchPadPro launchPad = new LaunchPadPro();
-        launchPad.setup(() -> {
-            System.out.println("Sending messages...");
-
-
-
-            // Listener Example
-
-            /*launchPad.registerListener(new LaunchpadListener() {
-                @Override
-                public void onButtonPushed(Button button, long timestamp) {
-                    System.out.println(" On (" + button.getX() + "," + button.getY() + ") - " + getCoords(button.getX(), button.getY()));
-                    launchPad.noteOn(getCoords(button.getX(), button.getY()), Color.RED);
-                }
-
-                @Override
-                public void onButtonReleased(Button button, long timestamp) {
-                    System.out.println(" Off (" + button.getX() + "," + button.getY() + ") - " + getCoords(button.getX(), button.getY()));
-                    launchPad.noteOff(getCoords(button.getX(), button.getY()));
-
-                }
-            });*/
-
-            launchPad.clearScreen();
-
-            launchPad.noteOn(getCoords(2,2), Color.GREEN);
-
-          /*  launchPad.noteOn(getCoords(1,8), Color.BLACK);
-            launchPad.noteOn(getCoords(1,7), Color.BLUE);
-            launchPad.noteOn(getCoords(1,6), Color.CYAN);
-            launchPad.noteOn(getCoords(1,5), Color.DARK_GRAY);
-            launchPad.noteOn(getCoords(1,4), Color.GRAY);
-            launchPad.noteOn(getCoords(1,3), Color.GREEN);
-            launchPad.noteOn(getCoords(1,2), Color.LIGHT_GRAY);
-
-            launchPad.noteOn(getCoords(2,8), Color.MAGENTA);
-            launchPad.noteOn(getCoords(2,7), Color.ORANGE);
-            launchPad.noteOn(getCoords(2,6), Color.PINK);
-            launchPad.noteOn(getCoords(2,5), Color.RED);
-            launchPad.noteOn(getCoords(2,4), Color.WHITE);
-            launchPad.noteOn(getCoords(2,3), Color.YELLOW);*/
-
-            });
-
-    }
-
     private final static String UNIX_SIG = "Live Port";
 
     private static String OS_SIG = "Launchpad Pro";
@@ -401,4 +351,7 @@ public class LaunchPadPro extends SimpleLaunchpad implements IMidiDevice {
                 sendSysExMessage(data);
         }
     }
+
+
+
 }

@@ -1,12 +1,19 @@
 package me.jessepayne.pad4j.core.object;
 
+import me.jessepayne.pad4j.core.enums.ButtonStatus;
 import me.jessepayne.pad4j.core.enums.CCButtonEnum;
 import me.jessepayne.pad4j.core.midi.LaunchPadPro;
 
+import java.awt.*;
+
 public class Button {
+
+    private ButtonStatus status = ButtonStatus.OFF;
+    private Color color = new Color(0,0,0);
 
     private int x;
     private int y;
+
     private boolean isPad = true;
 
     public Button(int x, int y){
@@ -67,12 +74,13 @@ public class Button {
         return "Pad[" + x + "," + y + "]";
     }
 
-    public boolean similar(Object o){
 
-        if(!(o instanceof Button)){
-            return false;
-        }
-        return o.toString().equals(this.toString());
+    public void setStatus(Button button, ButtonStatus status, int... colorData){
+        status = ButtonStatus.OFF;
+    }
+
+    public ButtonStatus getStatus(){
+        return status;
     }
 
 }
